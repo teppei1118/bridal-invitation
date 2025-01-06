@@ -1,26 +1,92 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <InviteIndex :deadline="'2025-04-26'"></InviteIndex>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import InviteIndex from './components/InviteIndex.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    InviteIndex,
+  },
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('div'); // section要素を取得
+
+  const onScroll = () => {
+    const windowHeight = window.innerHeight;
+
+    sections.forEach((section) => {
+      const sectionTop = section.getBoundingClientRect().top;
+
+      if (sectionTop < windowHeight - 50) {
+        section.classList.add('visible');
+      }
+    });
+  };
+
+  window.addEventListener('scroll', onScroll);
+  onScroll(); // 初回チェック
+});
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Fonts */
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+/* Bootstrap */
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+
+/* font */
+@import url('https://use.typekit.net/hxo7pbg.css');
+
+body {
+  color: #2d3c67;
+  background-color: #f2ecff;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  white-space: pre-line;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  font-family: 'aria-text-g2', 'source-han-serif-jp-subset', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h2,
+h3 {
+  font-family: 'gloock', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+img {
+  width: 100%;
+}
+
+section {
+  padding: 50px 25px;
+}
+
+div {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 2s ease;
+}
+
+div.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bg-navy {
+  color: #eaf6ff;
+  background-color: #2d3c67;
+}
+
+.fs-countdown-days {
+  font-size: calc(1.35rem + 15vw) !important;
 }
 </style>
