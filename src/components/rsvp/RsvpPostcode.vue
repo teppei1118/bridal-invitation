@@ -2,7 +2,7 @@
   <div class="col">
     <label for="postcode" class="form-label">郵便番号（ハイフンなし）</label>
     <div class="row">
-      <div class="col-9">
+      <div class="col">
         <input
           v-if="this.errorMessage !== ''"
           v-model="postcode"
@@ -11,6 +11,8 @@
           name="postcode"
           id="postcode"
           placeholder="0000000"
+          maxlength="7"
+          @input="fetchAddress"
         />
         <input
           v-else
@@ -20,29 +22,15 @@
           name="postcode"
           id="postcode"
           placeholder="0000000"
+          maxlength="7"
+          @input="fetchAddress"
         />
         <div
           v-if="this.errorMessage !== ''"
-          class="invalid-feedback text-break"
+          class="invalid-feedback text-break visible"
         >
           {{ this.errorMessage }}
         </div>
-      </div>
-      <div class="col-2">
-        <button @click.prevent="fetchAddress" class="btn btn-light">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-search"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-            />
-          </svg>
-        </button>
       </div>
     </div>
     <div v-if="this.errorMessage !== ''" class="invalid-feedback">
@@ -63,22 +51,33 @@ export default {
   },
   methods: {
     async fetchAddress() {
-      try {
-        const response = await axios.get(
-          `http://localhost:8000/api/address/search?postcode=${this.postcode}`
-        );
+      if (this.postcode.length === 7) {
+        try {
+          const response = await axios.get(
+            `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${this.postcode}`
+          );
+          this.address = response.data.address;
 
-        if ('address' in response.data) {
-          this.$emit('address-found', response.data.address);
+          if (response.status !== 200) {
+            throw new Error();
+          }
+
+          if (response.data.results === null) {
+            this.errorMessage = '存在しない郵便番号です';
+          }
+
+          console.log(response.data.results[0]);
+          this.$emit(
+            'address-found',
+            response.data.results[0]['address1'] +
+              response.data.results[0]['address2'] +
+              response.data.results[0]['address3']
+          );
+
           this.errorMessage = '';
+        } catch (error) {
+          this.errorMessage = '住所の取得に失敗しました';
         }
-
-        if ('errors' in response.data) {
-          this.errorMessage = response.data.errors.postcode[0];
-        }
-      } catch (error) {
-        console.log(error);
-        this.errorMessage = 'APIエラーが発生しました。';
       }
     },
   },

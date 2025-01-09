@@ -55,6 +55,20 @@ body {
   font-style: normal;
 }
 
+#all {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto; /* 横方向の中央揃え */
+  padding: 0 16px; /* 画面端に余白をつける */
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 768px) {
+  #all {
+    width: 768px;
+  }
+}
+
 h2,
 h3 {
   font-family: 'gloock', sans-serif;

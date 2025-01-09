@@ -1,11 +1,13 @@
 <template>
-  <MainIndex></MainIndex>
-  <CountdownIndex :deadline="deadline"></CountdownIndex>
-  <IntroductionIndex></IntroductionIndex>
-  <HostIndex></HostIndex>
-  <!--    スライドショー-->
-  <InformationIndex></InformationIndex>
-  <RsvpIndex :deadline="deadline"></RsvpIndex>
+  <div id="all">
+    <MainIndex></MainIndex>
+    <CountdownIndex :deadline="deadline"></CountdownIndex>
+    <IntroductionIndex></IntroductionIndex>
+    <HostIndex></HostIndex>
+    <!--    スライドショー-->
+    <InformationIndex></InformationIndex>
+    <RsvpIndex :deadline="deadline"></RsvpIndex>
+  </div>
 </template>
 
 <script>
