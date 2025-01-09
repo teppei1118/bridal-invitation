@@ -31,7 +31,7 @@ export default {
 
 <style>
 #rsvp {
-  background: url('@/assets/images/023.jpg') no-repeat center center;
+  background: url('@/assets/images/rsvp_background.jpg') no-repeat center center;
   background-size: cover;
 }
 </style>

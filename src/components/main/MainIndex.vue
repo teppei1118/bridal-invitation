@@ -22,7 +22,7 @@
 
 <style>
 #main {
-  background: url('@/assets/images/main_background.png') no-repeat center center;
+  background: url('@/assets/images/main_background.jpg') no-repeat center center;
   background-size: cover;
 }
 
