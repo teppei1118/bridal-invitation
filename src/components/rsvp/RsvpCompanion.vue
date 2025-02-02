@@ -6,14 +6,14 @@
         v-model="form.last_name"
         name="last_name"
         label="姓"
-        placeholder="石橋"
+        placeholder="石原"
         :visible="true"
       ></FormText>
       <FormText
         v-model="form.first_name"
         name="first_name"
         label="名"
-        placeholder="さくら"
+        placeholder="さとみ"
         :visible="true"
       ></FormText>
     </div>
@@ -22,14 +22,14 @@
         v-model="form.last_name_kana"
         name="last_name_kana"
         label="セイ（カナ）"
-        placeholder="イシバシ"
+        placeholder="イシハラ"
         :visible="true"
       ></FormText>
       <FormText
         v-model="form.first_name_kana"
         name="first_name_kana"
         label="メイ（カナ）"
-        placeholder="サクラ"
+        placeholder="サトミ"
         :visible="true"
       ></FormText>
     </div>

@@ -31,6 +31,14 @@
     ></FormText>
   </div>
   <div class="row pt-3">
+    <FormText
+      v-model="form.email"
+      name="email"
+      label="メールアドレス（半角）"
+      placeholder="sakurachan@example.com"
+    ></FormText>
+  </div>
+  <div class="row pt-3">
     <RsvpPostcode
       @address-found="handleAddressFound"
       v-model="form.postcode"
