@@ -1,13 +1,14 @@
 <template>
   <div class="col">
-    <label :for="id" class="form-label">{{ this.label }}</label>
+    <label :for="id" class="form-label">{{ label }}</label>
     <input
       class="form-control"
-      :type="this.type"
-      :name="this.name"
-      :id="this.id"
-      :placeholder="this.placeholder ?? this.label"
-      :value="value"
+      :type="type"
+      :name="name"
+      :id="id"
+      :placeholder="placeholder ?? label"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     />
   </div>
 </template>
@@ -15,8 +16,8 @@
 <script>
 export default {
   computed: {
-    id: function () {
-      return this.name.replace('_', '-');
+    id() {
+      return this.name ? this.name.replace('_', '-') : '';
     },
   },
   props: {
@@ -32,7 +33,7 @@ export default {
       type: String,
       required: false,
     },
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -41,7 +42,6 @@ export default {
       default: 'text',
     },
   },
+  emits: ['update:modelValue'],
 };
 </script>
-
-<style></style>

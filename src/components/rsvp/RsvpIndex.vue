@@ -5,7 +5,7 @@
         <div class="text-center pt-5">
           <h2>RSVP</h2>
         </div>
-        <RsvpMessage :deadline="this.deadline"></RsvpMessage>
+        <RsvpMessage :deadline="deadline"></RsvpMessage>
         <RsvpForm></RsvpForm>
       </div>
     </div>
@@ -15,6 +15,7 @@
 <script>
 import RsvpForm from './RsvpForm.vue';
 import RsvpMessage from './RsvpMessage.vue';
+
 export default {
   components: {
     RsvpForm,
@@ -29,9 +30,17 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+/* RSVP セクションの背景をスクロールに追従させる */
 #rsvp {
+  height: 100vh;
   background: url('@/assets/images/rsvp_background.jpg') no-repeat center center;
   background-size: cover;
+  overflow: hidden; /* スクロールを隠す */
+}
+
+.container {
+  max-height: 100vh;
+  overflow-y: auto; /* 必要に応じて縦方向にスクロール可能 */
 }
 </style>

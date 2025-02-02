@@ -10,15 +10,15 @@
         <div class="row pt-3">
           <div class="col">
             <div class="fs-1 number">{{ hours }}</div>
-            <div>HOURS</div>
+            <div>HOUR.</div>
           </div>
           <div class="col">
             <div class="fs-1 number">{{ minutes }}</div>
-            <div>MINUTES</div>
+            <div>MIN.</div>
           </div>
           <div class="col">
             <div class="fs-1 number">{{ seconds }}</div>
-            <div>SECONDS</div>
+            <div>SEC.</div>
           </div>
         </div>
         <div class="fs-2 pt-4">To: {{ formattedDeadline }}</div>

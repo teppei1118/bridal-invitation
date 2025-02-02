@@ -1,90 +1,83 @@
 <template>
-  <form class="pt-4">
+  <form class="pt-4" @submit.prevent="submitForm">
     <div class="pt-3 ps-3 pe-3">
-      <div class="row pt-3 text-center">
-        <div class="col">
-          <input
-            class="attendance-input"
-            type="radio"
-            name="attendance"
-            id="attendance-attend"
-            value="1"
+      <RsvpFormGroups @update:form="updateForm"></RsvpFormGroups>
+    </div>
+    <div class="row mt-3">
+      <button type="button" class="btn btn-light">
+        お連れ様を追加する<svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-person-plus-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
           />
-          <label for="attendance-attend" class="form-label">出席</label>
-        </div>
-        <div class="col">
-          <input
-            class="attendance-input"
-            type="radio"
-            name="attendance"
-            id="attendance-absence"
-            value="2"
+          <path
+            fill-rule="evenodd"
+            d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"
           />
-          <label for="attendance-absence" class="form-label">欠席</label>
-        </div>
-      </div>
-      <div class="row pt-3">
-        <FormText name="last_name" label="姓" placeholder="石橋"></FormText>
-        <FormText name="first_name" label="名" placeholder="さくら"></FormText>
-      </div>
-      <div class="row pt-3">
-        <FormText
-          name="last_name_kana"
-          label="セイ（カナ）"
-          placeholder="イシバシ"
-        ></FormText>
-        <FormText
-          name="first_name_kana"
-          label="メイ（カナ）"
-          placeholder="サクラ"
-        ></FormText>
-      </div>
-      <div class="row pt-3">
-        <RsvpPostcode @address-found="handleAddressFound"></RsvpPostcode>
-      </div>
-      <div class="row pt-3">
-        <FormText
-          name="address"
-          label="住所"
-          placeholder="北海道札幌市清田区O-O-O"
-          :value="foundAddress"
-        ></FormText>
-      </div>
-      <div class="row pt-3">
-        <FormText
-          name="building"
-          label="建物・部屋番号（全角）"
-          placeholder="トクトラスト美原"
-        ></FormText>
-      </div>
-      <div class="row pt-3">
-        <FormText
-          name="phone-number"
-          label="電話番号（ハイフンなし）"
-          placeholder="00000000000"
-          type="number"
-        ></FormText>
-      </div>
+        </svg>
+      </button>
+    </div>
+    <div class="row mt-3">
+      <button type="submit" class="btn btn-bridal">送信する</button>
     </div>
   </form>
+  <p v-if="successMessage">{{ successMessage }}</p>
 </template>
 
 <script>
-import RsvpPostcode from './RsvpPostcode.vue';
-import FormText from '../forms/FormText.vue';
+import RsvpFormGroups from './RsvpFormGroups.vue';
 export default {
   components: {
-    RsvpPostcode,
-    FormText,
+    RsvpFormGroups,
   },
   data() {
     return {
+      isInputAllergic: false,
       foundAddress: '',
+      allergicMessage: `お食事に制限がある方は
+      下記URLサイトからご回答をお願いします`,
+      form: {},
+      successMessage: '',
     };
   },
   methods: {
     handleAddressFound(address) {
       this.foundAddress = address;
+    },
+    isCheck(check) {
+      this.isInputAllergic = check === true;
+    },
+    updateForm(newForm) {
+      this.form = newForm;
+    },
+    async submitForm() {
+      const url =
+        'https://script.google.com/macros/s/AKfycbwqj2Twap84n30PBSHyscnL4VV0n6eIJaeycUJp5utaR8mokWqs0v52Bbzsk4UVIvjI/exec'; // デプロイしたURLを入力
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain',
+          },
+          mode: 'cors', // CORS を有効にする
+          body: JSON.stringify(this.form),
+        });
+        const result = await response.json();
+        if (result.success) {
+          this.successMessage = '送信が完了しました！';
+          this.formData = { message: '' };
+        } else {
+          this.successMessage = '送信に失敗しました。';
+        }
+      } catch (error) {
+        this.successMessage = 'エラーが発生しました。';
+      }
     },
   },
 };

@@ -1,11 +1,6 @@
 <template>
   <div id="main" class="vh-100 position-relative text-white">
     <img
-      :src="require('@/assets/images/main_flame.png')"
-      alt="main-frame"
-      class="frame"
-    />
-    <img
       :src="require('@/assets/images/main_name.png')"
       alt="main_name"
       class="name"

@@ -59,7 +59,6 @@ body {
   width: 100%;
   max-width: 768px;
   margin: 0 auto; /* 横方向の中央揃え */
-  padding: 0 16px; /* 画面端に余白をつける */
   box-sizing: border-box;
 }
 
@@ -102,5 +101,22 @@ div.visible {
 
 .fs-countdown-days {
   font-size: calc(1.35rem + 15vw) !important;
+}
+
+.btn-bridal {
+  --bs-btn-color: #f2ecff;
+  --bs-btn-bg: #2d3c67;
+  --bs-btn-border-color: #2d3c67;
+  --bs-btn-hover-color: #f2ecff;
+  --bs-btn-hover-bg: #2d3c67;
+  --bs-btn-hover-border-color: #2d3c67;
+  --bs-btn-focus-shadow-rgb: 211, 212, 213;
+  --bs-btn-active-color: #f2ecff;
+  --bs-btn-active-bg: #2d3c67;
+  --bs-btn-active-border-color: #2d3c67;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #f2ecff;
+  --bs-btn-disabled-bg: #2d3c67;
+  --bs-btn-disabled-border-color: #2d3c67;
 }
 </style>
