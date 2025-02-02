@@ -1,5 +1,5 @@
 <template>
-  <div class="form-check">
+  <div class="form-check" :class="{ visible: visible }">
     <input
       class="form-check-input"
       type="checkbox"
@@ -38,6 +38,10 @@ export default {
     value: {
       type: String,
       default: '',
+    },
+    visible: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:checked'],

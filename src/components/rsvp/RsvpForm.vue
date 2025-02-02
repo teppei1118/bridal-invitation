@@ -3,8 +3,22 @@
     <div class="pt-3 ps-3 pe-3">
       <RsvpFormGroups @update:form="updateForm"></RsvpFormGroups>
     </div>
+
+    <RsvpCompanion
+      v-for="(companion, index) in companions"
+      :key="index"
+      :index="index"
+      @update:form="(newForm) => updateCompanionForm(newForm, index)"
+      @remove="removeCompanion(index)"
+    />
+
     <div class="row mt-3">
-      <button type="button" class="btn btn-light">
+      <button
+        type="button"
+        class="btn btn-light"
+        @click="addCompanion"
+        :disabled="companions.length >= 2"
+      >
         お連れ様を追加する<svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -32,21 +46,38 @@
 
 <script>
 import RsvpFormGroups from './RsvpFormGroups.vue';
+import RsvpCompanion from './RsvpCompanion.vue';
 export default {
   components: {
     RsvpFormGroups,
+    RsvpCompanion,
   },
   data() {
     return {
+      companions: [],
       isInputAllergic: false,
       foundAddress: '',
       allergicMessage: `お食事に制限がある方は
       下記URLサイトからご回答をお願いします`,
-      form: {},
+      form: {
+        self: {},
+        companions: [],
+      },
       successMessage: '',
     };
   },
   methods: {
+    addCompanion() {
+      if (this.companions.length < 2) {
+        this.companions.push({});
+      }
+    },
+    removeCompanion(index) {
+      this.companions.splice(index, 1);
+      this.form.companions.splice(index, 1);
+
+      console.log(this.form);
+    },
     handleAddressFound(address) {
       this.foundAddress = address;
     },
@@ -54,7 +85,12 @@ export default {
       this.isInputAllergic = check === true;
     },
     updateForm(newForm) {
-      this.form = newForm;
+      this.form.self = newForm;
+      console.log(this.form);
+    },
+    updateCompanionForm(newForm, index) {
+      this.form.companions[index] = newForm;
+      console.log(this.form);
     },
     async submitForm() {
       const url =

@@ -1,6 +1,6 @@
 <template>
   <div class="row pt-3 text-center">
-    <RsvpAttendance></RsvpAttendance>
+    <RsvpAttendance v-model:attendance="form.attendance"></RsvpAttendance>
   </div>
   <div class="row pt-3">
     <FormText
@@ -122,7 +122,6 @@ export default {
   watch: {
     form: {
       handler(newForm) {
-        console.log(newForm);
         this.$emit('update:form', newForm);
       },
       deep: true,

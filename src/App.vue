@@ -87,6 +87,7 @@ div {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1s ease, transform 2s ease;
+  will-change: opacity, transform; /* アニメーションの最適化 */
 }
 
 div.visible {

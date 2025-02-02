@@ -1,5 +1,5 @@
 <template>
-  <div class="col">
+  <div class="col" :class="{ visible: visible }">
     <label :for="id" class="form-label">{{ label }}</label>
     <input
       class="form-control"
@@ -40,6 +40,10 @@ export default {
     type: {
       type: String,
       default: 'text',
+    },
+    visible: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['update:modelValue'],
