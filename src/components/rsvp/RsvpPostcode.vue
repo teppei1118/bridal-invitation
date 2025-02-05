@@ -12,16 +12,24 @@
           placeholder="0000000"
           maxlength="7"
           :class="{
-            'is-invalid': errorMessage !== '',
-            'is-valid': errorMessage === '' && postcode.length === 7,
+            'is-invalid': errorMessage !== '' || failedMessage !== '',
           }"
           @input="$emit('update:modelValue', postcode)"
+          @blur="validate"
         />
+        <!-- バリデーションエラーを表示 -->
         <div
-          v-if="this.errorMessage !== ''"
+          v-if="errorMessage !== ''"
           class="invalid-feedback text-break visible"
         >
-          {{ this.errorMessage }}
+          {{ errorMessage }}
+        </div>
+        <!-- APIエラーを表示 -->
+        <div
+          v-if="failedMessage !== ''"
+          class="invalid-feedback text-break visible"
+        >
+          {{ failedMessage }}
         </div>
       </div>
     </div>
@@ -36,25 +44,28 @@ export default {
     return {
       postcode: '',
       errorMessage: '',
-      form: [],
+      failedMessage: '',
     };
   },
   methods: {
     async fetchAddress() {
+      this.failedMessage = ''; // エラーメッセージをリセット
+      if (!/^\d{7}$/.test(this.postcode)) {
+        return; // 7桁の数字でない場合はAPIを呼ばない
+      }
+
       try {
         const response = await axios.get(
           `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${this.postcode}`
         );
-        this.address = response.data.address;
 
-        if (response.status !== 200) {
-          throw new Error();
-        }
-
+        // APIのレスポンスを確認
         if (response.data.results === null) {
-          this.errorMessage = '存在しない郵便番号です';
+          this.failedMessage = '存在しない郵便番号です';
+          return;
         }
 
+        // 正常に住所を取得
         this.$emit(
           'address-found',
           response.data.results[0]['address1'] +
@@ -62,10 +73,35 @@ export default {
             response.data.results[0]['address3']
         );
 
-        this.errorMessage = '';
+        this.failedMessage = ''; // API成功時はエラーメッセージをクリア
       } catch (error) {
-        this.errorMessage = '住所の取得に失敗しました';
+        this.failedMessage = '住所の取得に失敗しました';
       }
+    },
+    validate() {
+      this.errorMessage = '';
+
+      // 必須チェック
+      if (!this.postcode) {
+        this.errorMessage =
+          this.errorMessage !== '' ? this.errorMessage : `郵便番号は必須です。`;
+      }
+      // 半角数字チェック
+      else if (!/^[0-9]+$/.test(this.postcode)) {
+        this.errorMessage =
+          this.errorMessage !== ''
+            ? this.errorMessage
+            : `郵便番号は半角数値のみで入力してください。`;
+      }
+      // 桁数チェック
+      else if (this.postcode.length !== 7) {
+        this.errorMessage =
+          this.errorMessage !== ''
+            ? this.errorMessage
+            : `郵便番号は7桁で入力してください。`;
+      }
+
+      return this.errorMessage === '';
     },
   },
   watch: {
@@ -75,8 +111,6 @@ export default {
       }
     },
   },
-  $emits: ['updated:modelValue'],
+  emits: ['update:modelValue', 'address-found'],
 };
 </script>
-
-<style></style>

@@ -1,6 +1,9 @@
 <template>
   <div class="row pt-3 text-center">
-    <RsvpAttendance v-model:attendance="form.attendance"></RsvpAttendance>
+    <RsvpAttendance
+      v-model:attendance="form.attendance"
+      ref="attendance"
+    ></RsvpAttendance>
   </div>
   <div class="row pt-3">
     <FormText
@@ -8,12 +11,16 @@
       name="last_name"
       label="姓"
       placeholder="石橋"
+      :validation="['required']"
+      ref="lastName"
     ></FormText>
     <FormText
       v-model="form.first_name"
       name="first_name"
       label="名"
       placeholder="さくら"
+      :validation="['required']"
+      ref="firstName"
     ></FormText>
   </div>
   <div class="row pt-3">
@@ -22,12 +29,16 @@
       name="last_name_kana"
       label="セイ（カナ）"
       placeholder="イシバシ"
+      :validation="['required', 'kana']"
+      ref="lastNameKana"
     ></FormText>
     <FormText
       v-model="form.first_name_kana"
       name="first_name_kana"
       label="メイ（カナ）"
       placeholder="サクラ"
+      :validation="['required', 'kana']"
+      ref="firstNameKana"
     ></FormText>
   </div>
   <div class="row pt-3">
@@ -36,6 +47,8 @@
       name="email"
       label="メールアドレス（半角）"
       placeholder="sakurachan@example.com"
+      :validation="['required', 'email']"
+      ref="email"
     ></FormText>
   </div>
   <div class="row pt-3">
@@ -49,7 +62,9 @@
       v-model="form.address"
       name="address"
       label="住所"
-      placeholder="北海道札幌市清田区O-O-O"
+      placeholder="北海道札幌市清田区０ー０ー０"
+      :validation="['required', 'zenkaku']"
+      ref="address"
     ></FormText>
   </div>
   <div class="row pt-3">
@@ -58,6 +73,8 @@
       name="building"
       label="建物・部屋番号（全角）"
       placeholder="トクトラスト美原"
+      :validation="['zenkaku']"
+      ref="building"
     ></FormText>
   </div>
   <div class="row pt-3">
@@ -67,6 +84,8 @@
       label="電話番号（ハイフンなし）"
       placeholder="00000000000"
       type="number"
+      :validation="['required', 'hankaku-numeric']"
+      ref="phoneNumber"
     ></FormText>
   </div>
   <div class="row pt-3">
@@ -125,6 +144,19 @@ export default {
     },
     isCheck(check) {
       this.isInputAllergic = check === true;
+    },
+    validateAll() {
+      let isError = false;
+      Object.values(this.$refs)
+        .flat()
+        .forEach((ref) => {
+          if (ref.validate) {
+            let thisError = ref.validate() === false;
+            isError = isError ? isError : thisError;
+          }
+        });
+
+      return isError === false;
     },
   },
   watch: {

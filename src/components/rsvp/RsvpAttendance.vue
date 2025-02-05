@@ -1,39 +1,56 @@
 <template>
-  <div class="attendance-container" @click="handleClick">
+  <div class="attendance-area" @click="handleClick" @blur="validate">
     <img :src="currentImage" alt="attendance" class="attendance-image" />
+  </div>
+  <div v-if="errorMessage !== ''" class="text-danger text-start fs-6 visible">
+    {{ errorMessage }}
   </div>
 </template>
 <script>
 export default {
+  props: {
+    attendance: {
+      type: [Boolean, null],
+      default: null,
+    },
+  },
   data() {
     return {
-      defaultImage: require('@/assets/images/attendance_init.jpg'),
+      defaultImage: require('@/assets/images/attendance_init.png'),
       attendImage: require('@/assets/images/attendance_attend.jpg'),
       absentImage: require('@/assets/images/attendance_absent.jpg'),
-      currentImage: require('@/assets/images/attendance_init.jpg'),
+      errorMessage: '',
     };
+  },
+  computed: {
+    currentImage() {
+      if (this.attendance === true) {
+        return this.attendImage;
+      } else if (this.attendance === false) {
+        return this.absentImage;
+      } else {
+        return this.defaultImage;
+      }
+    },
   },
   methods: {
     handleClick(event) {
       const clickX = event.offsetX;
       const elementWidth = event.currentTarget.clientWidth;
+      const newAttendance = clickX < elementWidth / 2;
 
-      if (clickX < elementWidth / 2) {
-        // 左半分をクリック → 出席
-        this.currentImage = this.attendImage;
-        this.$emit('update:attendance', 'attend');
-      } else {
-        // 右半分をクリック → 欠席
-        this.currentImage = this.absentImage;
-        this.$emit('update:attendance', 'absent');
-      }
+      this.$emit('update:attendance', newAttendance);
+    },
+    validate() {
+      this.errorMessage = this.attendance === null ? '出欠は必須です。' : '';
+      return this.errorMessage === '';
     },
   },
 };
 </script>
 
 <style scoped>
-.attendance-container {
+.attendance-area {
   width: 100%;
   cursor: pointer;
   display: flex;
@@ -43,6 +60,5 @@ export default {
 
 .attendance-image {
   width: 100%;
-  max-width: 400px; /* 必要に応じて調整 */
 }
 </style>

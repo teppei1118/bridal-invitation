@@ -1,7 +1,10 @@
 <template>
   <form class="pt-4" @submit.prevent="submitForm">
     <div class="pt-3 ps-3 pe-3">
-      <RsvpFormGroups @update:form="updateForm"></RsvpFormGroups>
+      <RsvpFormGroups
+        ref="formGroups"
+        @update:form="updateForm"
+      ></RsvpFormGroups>
     </div>
 
     <RsvpCompanion
@@ -10,7 +13,8 @@
       :index="index"
       @update:form="(newForm) => updateCompanionForm(newForm, index)"
       @remove="removeCompanion(index)"
-    />
+      ref="companions"
+    ></RsvpCompanion>
 
     <div class="row mt-3">
       <button
@@ -95,7 +99,23 @@ export default {
     async submitForm() {
       const url =
         'https://script.google.com/macros/s/AKfycbwqj2Twap84n30PBSHyscnL4VV0n6eIJaeycUJp5utaR8mokWqs0v52Bbzsk4UVIvjI/exec'; // デプロイしたURLを入力
+
       try {
+        let validateCompanions = true;
+
+        if (Array.isArray(this.$refs.companions)) {
+          console.log(this.$refs.companions);
+          this.$refs.companions.forEach((ref) => {
+            let thisError = ref.validateAll();
+            validateCompanions =
+              validateCompanions === false ? validateCompanions : thisError;
+          });
+        }
+
+        if (!this.$refs.formGroups.validateAll() || !validateCompanions) {
+          return;
+        }
+
         const response = await fetch(url, {
           method: 'POST',
           headers: {

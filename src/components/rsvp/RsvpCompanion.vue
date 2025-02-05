@@ -8,6 +8,8 @@
         label="姓"
         placeholder="石原"
         :visible="true"
+        :validation="['required']"
+        ref="lastName"
       ></FormText>
       <FormText
         v-model="form.first_name"
@@ -15,6 +17,8 @@
         label="名"
         placeholder="さとみ"
         :visible="true"
+        :validation="['required']"
+        ref="firstName"
       ></FormText>
     </div>
     <div class="row pt-3 visible">
@@ -24,6 +28,8 @@
         label="セイ（カナ）"
         placeholder="イシハラ"
         :visible="true"
+        :validation="['required', 'kana']"
+        ref="lastNameKana"
       ></FormText>
       <FormText
         v-model="form.first_name_kana"
@@ -31,6 +37,8 @@
         label="メイ（カナ）"
         placeholder="サトミ"
         :visible="true"
+        :validation="['required', 'email']"
+        ref="firstNameKana"
       ></FormText>
     </div>
     <div class="row pt-3 visible">
@@ -85,6 +93,19 @@ export default {
     },
     isCheck(check) {
       this.isInputAllergic = check === true;
+    },
+    validateAll() {
+      let isError = false;
+      Object.values(this.$refs)
+        .flat()
+        .forEach((ref) => {
+          if (ref.validate) {
+            let thisError = ref.validate() === false;
+            isError = isError ? isError : thisError;
+          }
+        });
+
+      return isError === false;
     },
   },
   watch: {
