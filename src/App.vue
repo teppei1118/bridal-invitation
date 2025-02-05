@@ -120,4 +120,9 @@ div.visible {
   --bs-btn-disabled-bg: #2d3c67;
   --bs-btn-disabled-border-color: #2d3c67;
 }
+
+.btn:active {
+  background-color: #e0e0e0 !important; /* 押した時の色 */
+  transform: scale(0.95); /* 少し縮小して押した感を出す */
+}
 </style>

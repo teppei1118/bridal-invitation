@@ -17,8 +17,8 @@ export default {
   data() {
     return {
       defaultImage: require('@/assets/images/attendance_init.png'),
-      attendImage: require('@/assets/images/attendance_attend.jpg'),
-      absentImage: require('@/assets/images/attendance_absent.jpg'),
+      attendImage: require('@/assets/images/attendance_attend.png'),
+      absentImage: require('@/assets/images/attendance_absent.png'),
       errorMessage: '',
     };
   },

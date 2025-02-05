@@ -61,7 +61,7 @@
   </div>
 
   <div class="row mt-3 visible">
-    <button type="button" class="btn btn-danger" @click="removeCompanion">
+    <button type="button btn" class="btn btn-danger" @click="removeCompanion">
       お連れ様を削除する
     </button>
   </div>

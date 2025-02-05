@@ -45,7 +45,7 @@
       <button type="submit" class="btn btn-bridal">送信する</button>
     </div>
   </form>
-  <p v-if="successMessage">{{ successMessage }}</p>
+  <p v-if="submitMessage">{{ submitMessage }}</p>
 </template>
 
 <script>
@@ -67,7 +67,7 @@ export default {
         self: {},
         companions: [],
       },
-      successMessage: '',
+      submitMessage: '',
     };
   },
   methods: {
@@ -126,13 +126,13 @@ export default {
         });
         const result = await response.json();
         if (result.success) {
-          this.successMessage = '送信が完了しました！';
+          this.submitMessage = '送信が完了しました！';
           this.formData = { message: '' };
         } else {
-          this.successMessage = '送信に失敗しました。';
+          this.submitMessage = '送信に失敗しました。';
         }
       } catch (error) {
-        this.successMessage = 'エラーが発生しました。';
+        this.submitMessage = 'エラーが発生しました。';
       }
     },
   },

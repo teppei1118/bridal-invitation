@@ -25,6 +25,10 @@
             <div class="fs-1">16:15</div>
           </div>
         </div>
+        <hr />
+        <div class="row">
+          <div class="col" v-html="assembly"></div>
+        </div>
       </div>
       <div class="bg-white m-1">
         <h4 class="p-4">会場情報</h4>
@@ -77,6 +81,9 @@ export default {
       address: `〒150-0001
                 東京都渋谷区神宮前5-31
                 TEL:03-5766-3200`,
+      assembly: `当日は15時15分までにお越しくださいますよう
+                よろしくお願い申し上げます
+      `,
     };
   },
 };
