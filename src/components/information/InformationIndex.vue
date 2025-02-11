@@ -2,7 +2,11 @@
   <section>
     <div class="container">
       <div class="pt-5">
-        <h2 class="p-4">INFORMATION</h2>
+        <h2 class="p-4">
+          INFORMATION
+          <br />
+          <div class="fs-6">当日のご案内</div>
+        </h2>
       </div>
       <div class="pb-5" id="time-info">
         <div class="row">

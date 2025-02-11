@@ -13,7 +13,7 @@ export default {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const sections = document.querySelectorAll('div'); // section要素を取得
+  const sections = document.querySelectorAll('div');
 
   const onScroll = () => {
     const windowHeight = window.innerHeight;
@@ -121,8 +121,29 @@ div.visible {
   --bs-btn-disabled-border-color: #2d3c67;
 }
 
+.btn-bridal-primary {
+  --bs-btn-color: #2d3c67;
+  --bs-btn-border-color: #2d3c67;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #2d3c67;
+  --bs-btn-hover-border-color: #2d3c67;
+  --bs-btn-focus-shadow-rgb: 13, 110, 253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #2d3c67;
+  --bs-btn-active-border-color: #2d3c67;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #2d3c67;
+  --bs-btn-disabled-bg: transparent;
+  --bs-btn-disabled-border-color: #2d3c67;
+  --bs-gradient: none;
+}
+
 .btn:active {
   background-color: #e0e0e0 !important; /* 押した時の色 */
   transform: scale(0.95); /* 少し縮小して押した感を出す */
+}
+
+.fs-7 {
+  font-size: 0.8rem !important;
 }
 </style>

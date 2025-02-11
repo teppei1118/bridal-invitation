@@ -4,10 +4,24 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.svg" type="image/svg+xml" /> -->
+    <link rel="icon" type="image/png" href="/bridal-invitation/favicon.png" />
     <title>Teppei ∞ Sakura Bridal Invitation</title>
 
-    <meta name="robots" content="noindex" />
+    <!-- OGP 基本設定 -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://teppei1118.github.io/bridal-invitation/"
+    />
+    <meta property="og:title" content="Teppei ∞ Sakura Bridal Invitation" />
+    <meta property="og:description" content="結婚披露宴の招待状" />
+    <meta
+      property="og:image"
+      content="https://teppei1118.github.io/bridal-invitation/og_image.png"
+    />
+    <meta property="og:site_name" content="Teppei ∞ Sakura Bridal Invitation" />
+
+    <!-- <meta name="robots" content="noindex" /> -->
 
     <script>
       (function (d) {
@@ -43,13 +57,15 @@
   </head>
   <body>
     <noscript>
-      <strong
+      <!-- <strong
         >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
         properly without JavaScript enabled. Please enable it to
         continue.</strong
-      >
+      > -->
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

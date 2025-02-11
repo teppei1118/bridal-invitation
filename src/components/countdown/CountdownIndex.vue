@@ -21,7 +21,7 @@
             <div>SEC.</div>
           </div>
         </div>
-        <div class="fs-2 pt-4">To: {{ formattedDeadline }}</div>
+        <div class="fs-2 pt-4">{{ formattedDeadline }}</div>
       </div>
     </div>
   </section>

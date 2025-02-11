@@ -84,21 +84,21 @@ export default {
       // 必須チェック
       if (!this.postcode) {
         this.errorMessage =
-          this.errorMessage !== '' ? this.errorMessage : `郵便番号は必須です。`;
+          this.errorMessage !== '' ? this.errorMessage : `郵便番号は必須です`;
       }
       // 半角数字チェック
       else if (!/^[0-9]+$/.test(this.postcode)) {
         this.errorMessage =
           this.errorMessage !== ''
             ? this.errorMessage
-            : `郵便番号は半角数値のみで入力してください。`;
+            : `郵便番号は半角数値のみで入力してください`;
       }
       // 桁数チェック
       else if (this.postcode.length !== 7) {
         this.errorMessage =
           this.errorMessage !== ''
             ? this.errorMessage
-            : `郵便番号は7桁で入力してください。`;
+            : `郵便番号は7桁で入力してください`;
       }
 
       return this.errorMessage === '';

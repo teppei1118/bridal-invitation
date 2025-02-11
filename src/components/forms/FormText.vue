@@ -71,19 +71,17 @@ export default {
         this.errorMessage =
           this.errorMessage !== ''
             ? this.errorMessage
-            : `${this.label}は必須です。`;
+            : `${this.label}は必須です`;
       }
       // カナ入力
       if (
         this.validation.includes('kana') &&
-        !/^[\p{Script=Hiragana}\p{Script=Katakana}ー々]+$/u.test(
-          this.modelValue
-        )
+        !/^[\p{Script=Katakana}ー々]+$/u.test(this.modelValue)
       ) {
         this.errorMessage =
           this.errorMessage !== ''
             ? this.errorMessage
-            : `${this.label}はカナで入力してください。`;
+            : `${this.label}はカナで入力してください`;
       }
       // メールアドレス
       if (
@@ -95,7 +93,7 @@ export default {
         this.errorMessage =
           this.errorMessage !== ''
             ? this.errorMessage
-            : `メールアドレスが正しくありません。`;
+            : `メールアドレスが正しくありません`;
       }
       // 全角文字
       if (
@@ -106,7 +104,7 @@ export default {
         this.errorMessage =
           this.errorMessage !== ''
             ? this.errorMessage
-            : `${this.label}は全角文字のみで入力してください。`;
+            : `${this.label}は全角文字のみで入力してください`;
       }
       // 半角文字
       if (
@@ -116,7 +114,7 @@ export default {
         this.errorMessage =
           this.errorMessage !== ''
             ? this.errorMessage
-            : `${this.label}は半角文字のみで入力してください。`;
+            : `${this.label}は半角文字のみで入力してください`;
       }
       // 半角数値
       if (
@@ -126,7 +124,7 @@ export default {
         this.errorMessage =
           this.errorMessage !== ''
             ? this.errorMessage
-            : `${this.label}は半角数値のみで入力してください。`;
+            : `${this.label}は半角数値のみで入力してください`;
       }
 
       return this.errorMessage === '';

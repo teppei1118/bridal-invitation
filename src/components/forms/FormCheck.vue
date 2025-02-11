@@ -1,17 +1,19 @@
 <template>
-  <div class="form-check" :class="{ visible: visible }">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      :name="name"
-      :id="id"
-      :value="value"
-      :checked="checked"
-      @change="$emit('update:checked', $event.target.checked)"
-    />
-    <label class="form-check-label" for="flexCheckDefault">
-      {{ this.label }}
-    </label>
+  <div class="col" :class="{ visible: visible }">
+    <div class="form-check" :class="{ visible: visible }">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        :name="name"
+        :id="id"
+        :value="value"
+        :checked="checked"
+        @change="$emit('update:checked', $event.target.checked)"
+      />
+      <label class="form-check-label" for="flexCheckDefault">
+        {{ this.label }}
+      </label>
+    </div>
   </div>
 </template>
 

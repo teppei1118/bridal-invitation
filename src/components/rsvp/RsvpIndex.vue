@@ -3,7 +3,10 @@
     <div class="container">
       <div class="bg-white p-3" style="--bs-bg-opacity: 0.5">
         <div class="text-center pt-5">
-          <h2>RSVP</h2>
+          <h2>
+            RSVP<br />
+            <div class="fs-6">受付</div>
+          </h2>
         </div>
         <RsvpMessage :deadline="deadline"></RsvpMessage>
         <RsvpForm></RsvpForm>

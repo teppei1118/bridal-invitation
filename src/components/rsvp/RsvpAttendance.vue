@@ -40,9 +40,11 @@ export default {
       const newAttendance = clickX < elementWidth / 2;
 
       this.$emit('update:attendance', newAttendance);
+
+      this.errorMessage = '';
     },
     validate() {
-      this.errorMessage = this.attendance === null ? '出欠は必須です。' : '';
+      this.errorMessage = this.attendance === null ? '出欠は必須です' : '';
       return this.errorMessage === '';
     },
   },

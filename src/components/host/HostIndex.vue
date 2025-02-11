@@ -3,7 +3,10 @@
     <div class="container">
       <div>
         <div class="text-center pt-5">
-          <h2>HOST</h2>
+          <h2>
+            HOST<br />
+            <div class="fs-6">ホスト</div>
+          </h2>
         </div>
       </div>
       <HostGroom></HostGroom>

@@ -105,6 +105,23 @@
     </div>
   </div>
   <div class="row pt-3">
+    <FormRadioGroup
+      v-model="form.is_joining_after_party"
+      label="二次会に参加します"
+      name="is_joining_after_party"
+      :options="afterPartyOptions"
+      :validation="['required']"
+      ref="isJoiningAfterParty"
+    ></FormRadioGroup>
+    <div class="row pt-2">
+      <div
+        class="col fs-7 ms-2 text-body-secondary"
+        v-html="joiningAfterPartyMessage"
+      ></div>
+    </div>
+  </div>
+
+  <div class="row pt-3">
     <FormTextArea
       v-model="form.message"
       name="message"
@@ -119,6 +136,7 @@
 import RsvpAttendance from './RsvpAttendance.vue';
 import RsvpPostcode from './RsvpPostcode.vue';
 import FormCheck from '../forms/FormCheck.vue';
+import FormRadioGroup from '../forms/FormRadioGroup.vue';
 import FormText from '../forms/FormText.vue';
 import FormTextArea from '../forms/FormTextArea.vue';
 export default {
@@ -126,15 +144,24 @@ export default {
     RsvpAttendance,
     RsvpPostcode,
     FormCheck,
+    FormRadioGroup,
     FormText,
     FormTextArea,
   },
   data() {
     return {
+      afterPartyOptions: {
+        joining: 'はい',
+        nonJoining: 'いいえ',
+      },
       isInputAllergic: false,
       allergicMessage: `お食事に制限がある方は
       下記URLサイトからご回答をお願いします`,
       form: {},
+      joiningAfterPartyMessage: `会場は渋谷付近を想定しています
+      おおよその人数を把握したいため ご回答お願いします
+      詳細は幹事より別途連絡致します
+      `,
     };
   },
   emits: ['update:form'],

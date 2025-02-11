@@ -21,28 +21,21 @@
         type="button"
         class="btn btn-light"
         @click="addCompanion"
-        :disabled="companions.length >= 2"
+        :disabled="companions.length >= 2 || isSubmitting"
       >
-        お連れ様を追加する<svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-person-plus-fill"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
-          />
-          <path
-            fill-rule="evenodd"
-            d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"
-          />
-        </svg>
+        お連れ様を追加する
       </button>
     </div>
+
     <div class="row mt-3">
-      <button type="submit" class="btn btn-bridal">送信する</button>
+      <button
+        type="submit"
+        class="btn btn-bridal"
+        :disabled="isSubmitCompleted ? isSubmitCompleted : isSubmitting"
+      >
+        <span v-if="isSubmitting">送信中...</span>
+        <span v-else>送信する</span>
+      </button>
     </div>
   </form>
   <p v-if="submitMessage">{{ submitMessage }}</p>
@@ -51,6 +44,7 @@
 <script>
 import RsvpFormGroups from './RsvpFormGroups.vue';
 import RsvpCompanion from './RsvpCompanion.vue';
+
 export default {
   components: {
     RsvpFormGroups,
@@ -59,14 +53,12 @@ export default {
   data() {
     return {
       companions: [],
-      isInputAllergic: false,
-      foundAddress: '',
-      allergicMessage: `お食事に制限がある方は
-      下記URLサイトからご回答をお願いします`,
       form: {
         self: {},
         companions: [],
       },
+      isSubmitting: false,
+      isSubmitCompleted: false,
       submitMessage: '',
     };
   },
@@ -79,60 +71,55 @@ export default {
     removeCompanion(index) {
       this.companions.splice(index, 1);
       this.form.companions.splice(index, 1);
-
-      console.log(this.form);
-    },
-    handleAddressFound(address) {
-      this.foundAddress = address;
-    },
-    isCheck(check) {
-      this.isInputAllergic = check === true;
     },
     updateForm(newForm) {
       this.form.self = newForm;
-      console.log(this.form);
     },
     updateCompanionForm(newForm, index) {
       this.form.companions[index] = newForm;
-      console.log(this.form);
     },
     async submitForm() {
+      if (this.isSubmitting) return;
+      this.isSubmitting = true;
+      this.submitMessage = '';
+
       const url =
-        'https://script.google.com/macros/s/AKfycbwqj2Twap84n30PBSHyscnL4VV0n6eIJaeycUJp5utaR8mokWqs0v52Bbzsk4UVIvjI/exec'; // デプロイしたURLを入力
+        'https://script.google.com/macros/s/AKfycbwqj2Twap84n30PBSHyscnL4VV0n6eIJaeycUJp5utaR8mokWqs0v52Bbzsk4UVIvjI/exec';
+
+      let validateCompanions = true;
+
+      if (Array.isArray(this.$refs.companions)) {
+        this.$refs.companions.forEach((ref) => {
+          let thisError = ref.validateAll();
+          validateCompanions =
+            validateCompanions === false ? validateCompanions : thisError;
+        });
+      }
+
+      if (!this.$refs.formGroups.validateAll() || !validateCompanions) {
+        this.isSubmitting = false;
+        return;
+      }
 
       try {
-        let validateCompanions = true;
-
-        if (Array.isArray(this.$refs.companions)) {
-          console.log(this.$refs.companions);
-          this.$refs.companions.forEach((ref) => {
-            let thisError = ref.validateAll();
-            validateCompanions =
-              validateCompanions === false ? validateCompanions : thisError;
-          });
-        }
-
-        if (!this.$refs.formGroups.validateAll() || !validateCompanions) {
-          return;
-        }
-
         const response = await fetch(url, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain',
-          },
-          mode: 'cors', // CORS を有効にする
+          headers: { 'Content-Type': 'text/plain' },
+          mode: 'cors',
           body: JSON.stringify(this.form),
         });
+
         const result = await response.json();
         if (result.success) {
-          this.submitMessage = '送信が完了しました！';
-          this.formData = { message: '' };
+          this.submitMessage = `送信が完了しました`;
+          this.isSubmitCompleted = true;
         } else {
-          this.submitMessage = '送信に失敗しました。';
+          this.submitMessage = '送信に失敗しました';
         }
       } catch (error) {
-        this.submitMessage = 'エラーが発生しました。';
+        this.submitMessage = 'エラーが発生しました';
+      } finally {
+        this.isSubmitting = false;
       }
     },
   },
@@ -140,7 +127,30 @@ export default {
 </script>
 
 <style>
-form {
-  text-align: left;
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
 }
 </style>
